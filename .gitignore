@@ -130,5 +130,8 @@ dmypy.json
 .pyre/
 
 
-# editor
+# extras
 .vscode
+*.db
+flaskBlog/static/profile_pics/*
+!flaskBlog/static/profile_pics/default.jpg
