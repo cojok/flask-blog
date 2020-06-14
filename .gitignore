@@ -135,3 +135,7 @@ dmypy.json
 *.db
 flaskBlog/static/profile_pics/*
 !flaskBlog/static/profile_pics/default.jpg
+sendgrid.env
+sendgrid.env
+sendgrid.env
+sendgrid.env
