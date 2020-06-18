@@ -5,24 +5,29 @@ from flask_login import LoginManager
 from sendgrid import SendGridAPIClient
 from flaskBlog.config import Config
 
-app = Flask(__name__)
+db = SQLAlchemy()
 
-app.config.from_object(Config)
+bcrypt = Bcrypt()
 
-db = SQLAlchemy(app)
-
-bcrypt = Bcrypt(app)
-
-login_manager = LoginManager(app)
+login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 sg = SendGridAPIClient(Config.SG_KEY)
 
-from flaskBlog.users.routes import users
-from flaskBlog.posts.routes import posts
-from flaskBlog.main.routes import main
-
-app.register_blueprint(users)
-app.register_blueprint(posts)
-app.register_blueprint(main)
+def create_app(config_class=Config):
+  app = Flask(__name__)
+  
+  db.init_app(app)
+  bcrypt.init_app(app)
+  login_manager.init_app(app)
+    
+  from flaskBlog.users.routes import users
+  from flaskBlog.posts.routes import posts
+  from flaskBlog.main.routes import main
+  app.config.from_object(Config)
+  app.register_blueprint(users)
+  app.register_blueprint(posts)
+  app.register_blueprint(main)
+  
+  return app
